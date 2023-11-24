@@ -155,7 +155,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
           title: Text("Flutter Bluetooth"),
           backgroundColor: Colors.deepPurple,
           actions: <Widget>[
-            FlatButton.icon(
+            TextButton.icon(
               icon: Icon(
                 Icons.refresh,
                 color: Colors.white,
@@ -166,10 +166,10 @@ class _BluetoothAppState extends State<BluetoothApp> {
                   color: Colors.white,
                 ),
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              splashColor: Colors.deepPurple,
+              // shape: RoundedRectangleBorder(
+              //   borderRadius: BorderRadius.circular(30),
+              // ),
+              // splashColor: Colors.deepPurple,
               onPressed: () async {
                 // So, that when new devices are paired
                 // while the app is running, user can refresh
@@ -264,7 +264,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
                                   setState(() => _device = value),
                               value: _devicesList.isNotEmpty ? _device : null,
                             ),
-                            RaisedButton(
+                            ElevatedButton(
                               onPressed: _isButtonUnavailable
                                   ? null
                                   : _connected ? _disconnect : _connect,
@@ -306,13 +306,13 @@ class _BluetoothAppState extends State<BluetoothApp> {
                                     ),
                                   ),
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: _connected
                                       ? _sendOnMessageToBluetooth
                                       : null,
                                   child: Text("ON"),
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: _connected
                                       ? _sendOffMessageToBluetooth
                                       : null,
@@ -346,8 +346,8 @@ class _BluetoothAppState extends State<BluetoothApp> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        RaisedButton(
-                          elevation: 2,
+                        ElevatedButton(
+                          // elevation: 2,
                           child: Text("Bluetooth Settings"),
                           onPressed: () {
                             FlutterBluetoothSerial.instance.openSettings();
@@ -493,7 +493,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
     Duration duration: const Duration(seconds: 3),
   }) async {
     await new Future.delayed(new Duration(milliseconds: 100));
-    _scaffoldKey.currentState.showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       new SnackBar(
         content: new Text(
           message,
