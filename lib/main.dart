@@ -54,6 +54,10 @@ class _BluetoothAppState extends State<BluetoothApp> {
 
   bool isDisconnecting = false;
 
+  List<bool> daysChecked = [false, false, false, false, false, false, false];
+
+  static const List<String> days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
   Map<String, Color> colors = {
     'onBorderColor': Colors.green,
     'offBorderColor': Colors.red,
@@ -152,6 +156,12 @@ class _BluetoothAppState extends State<BluetoothApp> {
     // the list outside this class
     setState(() {
       _devicesList = devices;
+    });
+  }
+
+  void onChangeDay(int dayIndex, bool? changedState) {
+    setState(() {
+      daysChecked[dayIndex] = changedState!;
     });
   }
 
@@ -298,35 +308,49 @@ class _BluetoothAppState extends State<BluetoothApp> {
                           ),
                           elevation: _deviceState == 0 ? 4 : 0,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    "DEVICE 1",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: _deviceState == 0
-                                          ? colors['neutralTextColor']
-                                          : _deviceState == 1
-                                              ? colors['onTextColor']
-                                              : colors['offTextColor'],
-                                    ),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: <Widget> [
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          "DEVICE 1",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: _deviceState == 0
+                                                ? colors['neutralTextColor']
+                                                : _deviceState == 1
+                                                ? colors['onTextColor']
+                                                : colors['offTextColor'],
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed:
+                                        _connected ? _sendOnMessageToBluetooth : null,
+                                        child: const Text("ON"),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: _connected
+                                            ? _sendOffMessageToBluetooth
+                                            : null,
+                                        child: const Text("OFF"),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                TextButton(
-                                  onPressed:
-                                      _connected ? _sendOnMessageToBluetooth : null,
-                                  child: const Text("ON"),
-                                ),
-                                ElevatedButton(
-                                  onPressed:
-                                      _connected ? _sendOffMessageToBluetooth : null,
-                                  child: const Text("OFF"),
-                                ),
-                              ],
-                            ),
-                          ),
+                                  for (int i = 0; i < 7; i++) Row(
+                                    children: [
+                                      CheckboxListTile(
+                                        title: Text(days[i]), //    <-- label
+                                        value: daysChecked[i],
+                                        onChanged: (newValue) => onChangeDay(i, newValue),
+                                      ),
+                                    ],
+                                  ),
+
+                                ],
+                              )),
                         ),
                       ),
                     ],
@@ -425,8 +449,6 @@ class _BluetoothAppState extends State<BluetoothApp> {
         }).catchError((error) {
           print('Cannot connect, exception occurred');
           print(error);
-
-
         });
         show('Device connected', isValid: true);
 
@@ -436,6 +458,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
   }
 
   // void _onDataReceived(Uint8List data) {
+
   //   // Allocate buffer for parsed data
   //   int backspacesCounter = 0;
   //   data.forEach((byte) {
