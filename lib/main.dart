@@ -309,48 +309,60 @@ class _BluetoothAppState extends State<BluetoothApp> {
                           elevation: _deviceState == 0 ? 4 : 0,
                           child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: <Widget> [
-                                  Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Text(
-                                          "DEVICE 1",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            color: _deviceState == 0
-                                                ? colors['neutralTextColor']
-                                                : _deviceState == 1
-                                                ? colors['onTextColor']
-                                                : colors['offTextColor'],
+                              child: SingleChildScrollView(
+                                child:Column(
+                                  children: <Widget> [
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Text(
+                                            "DEVICE 1",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: _deviceState == 0
+                                                  ? colors['neutralTextColor']
+                                                  : _deviceState == 1
+                                                  ? colors['onTextColor']
+                                                  : colors['offTextColor'],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      TextButton(
-                                        onPressed:
-                                        _connected ? _sendOnMessageToBluetooth : null,
-                                        child: const Text("ON"),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: _connected
-                                            ? _sendOffMessageToBluetooth
-                                            : null,
-                                        child: const Text("OFF"),
-                                      ),
-                                    ],
-                                  ),
-                                  for (int i = 0; i < 7; i++) Row(
-                                    children: [
-                                      CheckboxListTile(
-                                        title: Text(days[i]), //    <-- label
-                                        value: daysChecked[i],
-                                        onChanged: (newValue) => onChangeDay(i, newValue),
-                                      ),
-                                    ],
-                                  ),
+                                        TextButton(
+                                          onPressed:
+                                          _connected ? _sendOnMessageToBluetooth : null,
+                                          child: const Text("ON"),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: _connected
+                                              ? _sendOffMessageToBluetooth
+                                              : null,
+                                          child: const Text("OFF"),
+                                        ),
+                                      ],
+                                    ),
 
-                                ],
-                              )),
+                                    for (int i = 0; i < 7; i++) CheckboxListTile(
+                                        title: Text("hello"), //    <-- label
+                                        value: true,
+                                        onChanged: (newValue) => {  }
+                                    ),
+
+
+
+                                    // for (int i = 0; i < 7; i++) Row(
+                                    //   children: [
+                                    //     CheckboxListTile(
+                                    //       title: Text(days[i]), //    <-- label
+                                    //       value: daysChecked[i],
+                                    //       onChanged: (newValue) => onChangeDay(i, newValue),
+                                    //     ),
+                                    //   ],
+                                    // ),
+
+                                  ],
+                                )
+                              )
+                            ),
                         ),
                       ),
                     ],
